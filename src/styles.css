@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Main Container Start */
+.main-container {
+  background: blue;
+  width: 100%;
+}
+/* Main Container End */
+
+/* Gym Equipment Container Start */
+.gym-equipment-container {
+  max-width: 100rem;
+  margin: 0 auto;
+  background: red;
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 768px) {
+  .gym-equipment-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 550px) {
+  .gym-equipment-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 375px) {
+  .gym-equipment-container {
+    grid-template-columns: 1fr;
+  }
+}
+/* Gym Equipment Container End */
+
+/* Single Piece Gym Equipment Start */
+.single-equipment-container {
+  background-color: aqua;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.equipment-image-container {
+  position: relative;
+  height: 10rem;
+  width: 100%;
+}
+.equipment-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* Single Piece Gym Equipment End */
