@@ -4,9 +4,36 @@ body {
   box-sizing: border-box;
 }
 
+/* Cart Button Start */
+#cart-button {
+  position: relative;
+  outline: none;
+  border: none;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#cart-button::after {
+  position: absolute;
+  content: '';
+  color: black;
+  background: white;
+  width: 1rem;
+  height: 1rem;
+  top: 0.25rem;
+  right: 0.25rem;
+  border-radius: 50%;
+  visibility: hidden;
+}
+.material-icons {
+  font-size: 2rem;
+}
+/* Cart Button End */
+
 /* Main Container Start */
 .main-container {
-  background: blue;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -17,7 +44,6 @@ body {
 /* Gym Equipment Container Start */
 .gym-equipment-container {
   max-width: 100rem;
-  background: red;
   width: 90%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -42,7 +68,10 @@ body {
 
 /* Single Piece Gym Equipment Start */
 .single-equipment-container {
-  background-color: aqua;
+  background: rgba(180, 180, 180, 0.856);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: none;
+  outline: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -52,6 +81,7 @@ body {
   position: relative;
   height: 10rem;
   width: 100%;
+  margin-top: 0.5rem;
 }
 .equipment-image {
   position: absolute;
@@ -60,5 +90,22 @@ body {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+.single-equipment-information {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.order-amount-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.amount {
+  background: white;
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 /* Single Piece Gym Equipment End */

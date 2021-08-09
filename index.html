@@ -5,11 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gym Equipment Store</title>
+    <!-- Google Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- CSS StyleSheet -->
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body>
     <h1>Gym Equipment Store</h1>
     <div class="search-container">
+      <!-- Text Search Start -->
       <label for="search-container"
         >Search:
         <input
@@ -18,7 +25,26 @@
           placeholder="search selection..."
         />
       </label>
+      <!-- Text Serach End -->
+
+      <!-- Drop Down Start -->
+      <label for="drop-down">
+        <select name="drop-down" id="drop-down">
+          <option value="">Select</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="alphabetical">Alphabetical</option>
+        </select>
+      </label>
+      <!-- Drop Down End -->
     </div>
+
+    <!-- Shopping Cart Start -->
+    <button id="cart-button" type="button">
+      <span class="material-icons"> shopping_cart </span>
+    </button>
+    <!-- Shopping Cart End -->
+
     <div class="main-container">
       <div class="gym-equipment-container"></div>
     </div>
