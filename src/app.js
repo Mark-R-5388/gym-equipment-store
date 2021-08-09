@@ -1,72 +1,75 @@
-class Equipment {
-  constructor(img, name, price) {
-    this.img = img
-    this.name = name
-    this.price = price
-  }
+// Equipment
+let barbell = {
+  img: '../src/equipment-pics/barbell.jpeg',
+  name: 'barbell',
+  price: '$120',
 }
 
-// Equipment
-let barbell = new Equipment(
-  '../src/equipment-pics/barbell.jpeg',
-  'barbell',
-  '$120'
-)
-let stationaryBike = new Equipment(
-  '../src/equipment-pics/bike.jpeg',
-  'stationaryBike',
-  '$200'
-)
-let dumbbell = new Equipment(
-  '../src/equipment-pics/dumbbells.jpeg',
-  'dumbbell',
-  '$25'
-)
-let rings = new Equipment(
-  '../src/equipment-pics/gymnastics-rings.jpeg',
-  'Gymnastics Rings',
-  '$60'
-)
-let kettleBells = new Equipment(
-  '../src/equipment-pics/kettlebells.jpeg',
-  'kettle bell',
-  '$60'
-)
-let medicineBalls = new Equipment(
-  '../src/equipment-pics/medicine-balls.jpeg',
-  'medicince balls',
-  '$30'
-)
-let resistanceBand = new Equipment(
-  '../src/equipment-pics/resistance-band.jpeg',
-  'Resistance Band',
-  '$10'
-)
-let rower = new Equipment(
-  '../src/equipment-pics/rower.jpeg',
-  'Stationary Rower',
-  '$300'
-)
-let squatRack = new Equipment(
-  '../src/equipment-pics/squat-rack.jpeg',
-  'Squat Rack',
-  '$400'
-)
-let treadmill = new Equipment(
-  '../src/equipment-pics/treadmill.jpeg',
-  'Treadmill',
-  '$350'
-)
-let weightBench = new Equipment(
-  '../src/equipment-pics/weight-bench.jpeg',
-  'Weight Bench',
-  '$100'
-)
-let weightPlates = new Equipment(
-  '../src/equipment-pics/weight-plate.jpeg',
-  'Weight Plates',
-  '$50'
-)
+let stationaryBike = {
+  img: '../src/equipment-pics/bike.jpeg',
+  name: 'Stationary Bike',
+  price: '$200',
+}
+
+let dumbbell = {
+  img: '../src/equipment-pics/dumbbells.jpeg',
+  name: 'dumbbell',
+  price: '$25',
+}
+
+let rings = {
+  img: '../src/equipment-pics/gymnastics-rings.jpeg',
+  name: 'Gymnastics Rings',
+  price: '$60',
+}
+
+let kettleBells = {
+  img: '../src/equipment-pics/kettlebells.jpeg',
+  name: 'kettle bell',
+  price: '$60',
+}
+
+let medicineBalls = {
+  img: '../src/equipment-pics/medicine-balls.jpeg',
+  name: 'medicince balls',
+  price: '$30',
+}
+
+let resistanceBand = {
+  img: '../src/equipment-pics/resistance-band.jpeg',
+  name: 'Resistance Band',
+  price: '$10',
+}
+
+let rower = {
+  img: '../src/equipment-pics/rower.jpeg',
+  name: 'Stationary Rower',
+  price: '$300',
+}
+
+let squatRack = {
+  img: '../src/equipment-pics/squat-rack.jpeg',
+  name: 'Squat Rack',
+  price: '$400',
+}
+
+let treadmill = {
+  img: '../src/equipment-pics/treadmill.jpeg',
+  name: 'Treadmill',
+  price: '$350',
+}
+
+let weightBench = {
+  img: '../src/equipment-pics/weight-bench.jpeg',
+  name: 'Weight Bench',
+  price: '$100',
+}
+
+let weightPlates = {
+  img: '../src/equipment-pics/weight-plate.jpeg',
+  name: 'Weight Plates',
+  price: '$50',
+}
 
 // Equipment List
 let equipmentList = [
@@ -84,32 +87,57 @@ let equipmentList = [
   weightPlates,
 ]
 
-equipmentList.forEach((equipment) => {
-  // Create Equipment Element Container
-  let equipmentContainer = document.createElement('div')
-  equipmentContainer.classList.add('single-equipment-container')
+const render = function (list) {
+  list.forEach((equipment) => {
+    // Create Equipment Element Container
+    let equipmentContainer = document.createElement('div')
+    equipmentContainer.classList.add('single-equipment-container')
 
-  // Create Equipment Image Container
-  let equipmentImageContainer = document.createElement('div')
-  equipmentImageContainer.classList.add('equipment-image-container')
+    // Create Equipment Image Container
+    let equipmentImageContainer = document.createElement('div')
+    equipmentImageContainer.classList.add('equipment-image-container')
 
-  //Create Image
-  let equipmentImage = document.createElement('img')
-  equipmentImage.classList.add('equipment-image')
-  equipmentImage.src = equipment.img
-  equipmentImage.alt = equipment.name
+    //Create Image
+    let equipmentImage = document.createElement('img')
+    equipmentImage.classList.add('equipment-image')
+    equipmentImage.src = equipment.img
+    equipmentImage.alt = equipment.name
 
-  equipmentImageContainer.appendChild(equipmentImage)
+    equipmentImageContainer.appendChild(equipmentImage)
 
-  // Create Equipment Information Section
-  let equipmentInformation = document.createElement('div')
-  equipmentInformation.classList.add('single-equipment-information')
-  equipmentInformation.innerHTML = `<h2>${equipment.name}</h2> <h3>${equipment.price}</h3>`
+    // Create Equipment Information Section
+    let equipmentInformation = document.createElement('div')
+    equipmentInformation.classList.add('single-equipment-information')
+    equipmentInformation.innerHTML = `<h2>${equipment.name}</h2> <h3>${equipment.price}</h3>`
 
-  // Combine all together
-  equipmentContainer.appendChild(equipmentImageContainer)
-  equipmentContainer.appendChild(equipmentInformation)
-  document
-    .querySelector('.gym-equipment-container')
-    .appendChild(equipmentContainer)
+    // Combine all together
+    equipmentContainer.appendChild(equipmentImageContainer)
+    equipmentContainer.appendChild(equipmentInformation)
+    document
+      .querySelector('.gym-equipment-container')
+      .appendChild(equipmentContainer)
+  })
+}
+
+// On Loading First Time
+window.addEventListener('DOMContentLoaded', () => {
+  render(equipmentList)
+})
+
+// Search Section
+const searchContent = {
+  text: '',
+}
+const searchVariable = document.querySelector('#search-container')
+searchVariable.addEventListener('input', (e) => {
+  searchContent.text = e.target.value
+
+  let filteredEquipment = equipmentList.filter((equipment) => {
+    return equipment.name
+      .toLowerCase()
+      .includes(searchContent.text.toLowerCase())
+  })
+
+  document.querySelector('.gym-equipment-container').innerHTML = ''
+  render(filteredEquipment)
 })

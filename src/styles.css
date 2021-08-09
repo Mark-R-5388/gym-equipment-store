@@ -8,13 +8,15 @@ body {
 .main-container {
   background: blue;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 /* Main Container End */
 
 /* Gym Equipment Container Start */
 .gym-equipment-container {
   max-width: 100rem;
-  margin: 0 auto;
   background: red;
   width: 90%;
   display: grid;
@@ -41,7 +43,6 @@ body {
 /* Single Piece Gym Equipment Start */
 .single-equipment-container {
   background-color: aqua;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
