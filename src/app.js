@@ -88,7 +88,38 @@ let equipmentList = [
 ]
 
 // Cart Section
-let cart = []
+let cart = JSON.parse(localStorage.getItem('cart'))
+
+// Save to Cart
+function saveToCart(item) {
+  if (localStorage.length < 1) {
+    cart = [item]
+    let cartJSON = JSON.stringify(cart)
+    localStorage.setItem('cart', cartJSON)
+  } else {
+    let storedCart = JSON.parse(localStorage.getItem('cart'))
+    storedCart.push(item)
+    localStorage.setItem('cart', JSON.stringify(storedCart))
+  }
+}
+// Load Cart
+function loadCart() {
+  if (cart != null) {
+    cart = JSON.parse(localStorage.getItem('cart'))
+    cartButtonNumber.textContent = cart.length
+  } else {
+    cart = ''
+  }
+}
+
+// Cart Button
+const cartButton = document.querySelector('#cart-button')
+let cartButtonNumberCircle = document.createElement('div')
+cartButtonNumberCircle.classList.add('cart-button-amount')
+let cartButtonNumber = document.createElement('p')
+cartButtonNumber.textContent = '0'
+cartButtonNumberCircle.appendChild(cartButtonNumber)
+cartButton.appendChild(cartButtonNumberCircle)
 
 const render = function (list) {
   list.forEach((equipment) => {
@@ -162,11 +193,9 @@ const render = function (list) {
     // Add to Cart
     addItemToCart.addEventListener('click', () => {
       let amount = amountArea.textContent
-      function addEquipment() {
-        return equipment
-      }
       for (let i = 1; i <= amount; i++) {
-        cart.push(addEquipment())
+        cartButtonNumber.textContent++
+        saveToCart(equipment)
       }
 
       amountArea.textContent = 0
@@ -241,5 +270,6 @@ dropDownVariable.addEventListener('change', (e) => {
 
 // On Loading First Time
 window.addEventListener('DOMContentLoaded', () => {
+  loadCart()
   render(equipmentList)
 })
