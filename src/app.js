@@ -121,6 +121,10 @@ cartButtonNumber.textContent = '0'
 cartButtonNumberCircle.appendChild(cartButtonNumber)
 cartButton.appendChild(cartButtonNumberCircle)
 
+cartButton.addEventListener('click', () => {
+  window.location.href = '/cartpage.html'
+})
+
 const render = function (list) {
   list.forEach((equipment) => {
     // Create Equipment Element Container
@@ -194,6 +198,7 @@ const render = function (list) {
     addItemToCart.addEventListener('click', () => {
       let amount = amountArea.textContent
       for (let i = 1; i <= amount; i++) {
+        equipment.id = randomId()
         cartButtonNumber.textContent++
         saveToCart(equipment)
       }
@@ -240,7 +245,6 @@ const dropDownVariable = document.querySelector('#drop-down')
 
 dropDownVariable.addEventListener('change', (e) => {
   searchContent.dropDownValue = dropDownVariable.value
-  console.log(searchContent.dropDownValue)
 
   let sortedList = equipmentList.sort((a, b) => {
     if (searchContent.dropDownValue === 'alphabetical') {
@@ -273,3 +277,8 @@ window.addEventListener('DOMContentLoaded', () => {
   loadCart()
   render(equipmentList)
 })
+
+// random id
+function randomId() {
+  return Math.random().toString(16).substr(2, 16)
+}
