@@ -87,90 +87,69 @@ let equipmentList = [
   weightPlates,
 ]
 
-// Cart Section
-let cart = JSON.parse(localStorage.getItem('cart'))
-
-// Save to Cart
-function saveToCart(item) {
-  if (localStorage.length < 1) {
-    cart = [item]
-    let cartJSON = JSON.stringify(cart)
-    localStorage.setItem('cart', cartJSON)
-  } else {
-    let storedCart = JSON.parse(localStorage.getItem('cart'))
-    storedCart.push(item)
-    localStorage.setItem('cart', JSON.stringify(storedCart))
-  }
-}
-// Load Cart
-function loadCart() {
-  if (cart != null) {
-    cart = JSON.parse(localStorage.getItem('cart'))
-    cartButtonNumber.textContent = cart.length
-  } else {
-    cart = ''
-  }
-}
+// Cart
+let cart = []
+cart = loadCart()
 
 // Cart Button
 const cartButton = document.querySelector('#cart-button')
 let cartButtonNumberCircle = document.createElement('div')
 cartButtonNumberCircle.classList.add('cart-button-amount')
 let cartButtonNumber = document.createElement('p')
-cartButtonNumber.textContent = '0'
+cartButtonNumber.textContent = cart.length
 cartButtonNumberCircle.appendChild(cartButtonNumber)
 cartButton.appendChild(cartButtonNumberCircle)
 
 cartButton.addEventListener('click', () => {
-  window.location.href = '/cartpage.html'
+  if (cart.length > 0) {
+    window.location.href = '/cartpage.html'
+  }
 })
 
 const render = function (list) {
   list.forEach((equipment) => {
     // Create Equipment Element Container
-    let equipmentContainer = document.createElement('div')
-    equipmentContainer.classList.add('single-equipment-container')
+    let equipmentContainer = makeElement('div', 'single-equipment-container')
 
     // Create Equipment Image Container
-    let equipmentImageContainer = document.createElement('div')
-    equipmentImageContainer.classList.add('equipment-image-container')
+    let equipmentImageContainer = makeElement(
+      'div',
+      'equipment-image-container'
+    )
+    equipmentImageContainer.classList.add()
 
     //Create Image
-    let equipmentImage = document.createElement('img')
-    equipmentImage.classList.add('equipment-image')
+    let equipmentImage = makeElement('img', 'equipment-image')
     equipmentImage.src = equipment.img
     equipmentImage.alt = equipment.name
 
     equipmentImageContainer.appendChild(equipmentImage)
 
     // Create Equipment Information Section
-    let equipmentInformation = document.createElement('div')
-    equipmentInformation.classList.add('single-equipment-information')
+    let equipmentInformation = makeElement(
+      'div',
+      'single-equipment-information'
+    )
     equipmentInformation.innerHTML = `<h2>${equipment.name}</h2> <h3>$${equipment.price}</h3>`
 
     // Add and Subtract Items Container
-    let quantityBox = document.createElement('div')
-    quantityBox.classList.add('order-amount-container')
+    let quantityBox = makeElement('div', 'order-amount-container')
 
-    let subtractButton = document.createElement('button')
+    let subtractButton = makeElement('button', 'subtract-button')
     subtractButton.textContent = '-'
-    subtractButton.classList.add('subtract-button')
 
-    let amountArea = document.createElement('p')
-    amountArea.classList.add('amount')
+    let amountArea = makeElement('p', 'amount')
     amountArea.textContent = 0
 
-    let addButton = document.createElement('button')
+    let addButton = makeElement('button', 'add-button')
     addButton.textContent = '+'
-    addButton.classList.add('add-button')
 
     quantityBox.appendChild(subtractButton)
     quantityBox.appendChild(amountArea)
     quantityBox.appendChild(addButton)
 
     // Add To Cart Button
-    let addItemToCart = document.createElement('button')
-    addItemToCart.classList.add('add-item-button')
+    let addItemToCart = makeElement('button', 'add-item-button')
     addItemToCart.textContent = 'Add to Cart'
 
     // Combine all together
@@ -181,7 +160,6 @@ const render = function (list) {
     document
       .querySelector('.gym-equipment-container')
       .appendChild(equipmentContainer)
-
     // Amount Section
     addButton.addEventListener('click', () => {
       amountArea.textContent++
@@ -197,11 +175,13 @@ const render = function (list) {
     // Add to Cart
     addItemToCart.addEventListener('click', () => {
       let amount = amountArea.textContent
+
       for (let i = 1; i <= amount; i++) {
+        equipment.id = ''
         equipment.id = randomId()
         cartButtonNumber.textContent++
-        saveToCart(equipment)
       }
+      saveToCart(equipment)
 
       amountArea.textContent = 0
     })
@@ -272,13 +252,45 @@ dropDownVariable.addEventListener('change', (e) => {
   render(sortedList)
 })
 
+// Load Cart
+function loadCart() {
+  if (localStorage.length != 0) {
+    let cartJSON = localStorage.getItem('cart')
+    let loadedCart = JSON.parse(cartJSON)
+    loadedCart.forEach((item) => {
+      cart.push(item)
+    })
+
+    return cart
+  } else {
+    let value = JSON.stringify([])
+    localStorage.setItem('cart', value)
+    let cartJSON = localStorage.getItem('cart')
+    cart = cartJSON
+    return cart
+  }
+}
+
 // On Loading First Time
 window.addEventListener('DOMContentLoaded', () => {
-  loadCart()
   render(equipmentList)
+  cart = loadCart()
 })
+
+// save to cart
+function saveToCart(item) {
+  cart.push(item)
+  localStorage.setItem('cart', JSON.stringify(cart))
+}
 
 // random id
 function randomId() {
   return Math.random().toString(16).substr(2, 16)
+}
+
+// Make Element
+function makeElement(element, className) {
+  let newElement = document.createElement(element)
+  newElement.classList.add(className)
+  return newElement
 }

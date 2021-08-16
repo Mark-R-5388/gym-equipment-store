@@ -1,11 +1,53 @@
 let cart = JSON.parse(localStorage.getItem('cart'))
-console.log(cart.length === 0)
+console.log(cart)
 let cartContainer = document.querySelector('.cart-main-container')
+let equipmentListContainer = document.querySelector('.equipment-list-container')
 
-if (cart != null || cartContainer.length > 1) {
-  let equipmentListContainer = createElement('div')
-  equipmentListContainer.classList.add('equipment-list-container')
-  cart.forEach((item) => {
+renderList(cart)
+
+// Cost Area
+let paymentContainer = document.createElement('div')
+paymentContainer.classList.add('cart-cost-container')
+
+//  Description Section
+let descriptionContainer = createElement('div')
+
+descriptionContainer.classList.add('cost-description-container')
+let cartTotal = createElement('p')
+cartTotal.textContent = 'Cart Total'
+let tax = createElement('p')
+tax.textContent = '10% Tax'
+let shipping = createElement('p')
+shipping.textContent = 'Shipping'
+let total = createElement('p')
+total.textContent = 'total'
+
+descriptionContainer.appendChild(cartTotal)
+descriptionContainer.appendChild(tax)
+descriptionContainer.appendChild(shipping)
+descriptionContainer.appendChild(total)
+
+//  Cost Section
+let costContainer = createElement('div')
+costContainer.classList.add('cost-container')
+let cartTotalDollar = createElement('p')
+let taxDollar = createElement('p')
+let shippingDollar = createElement('p')
+shippingDollar.textContent = '$15'
+let totalDollar = createElement('p')
+
+costContainer.appendChild(cartTotalDollar)
+costContainer.appendChild(taxDollar)
+costContainer.appendChild(shippingDollar)
+costContainer.appendChild(totalDollar)
+
+paymentContainer.appendChild(descriptionContainer)
+paymentContainer.appendChild(costContainer)
+cartContainer.appendChild(equipmentListContainer)
+cartContainer.appendChild(paymentContainer)
+
+function renderList(list) {
+  list.forEach((item) => {
     // Create Equipment Element Container
     let equipmentContainer = document.createElement('div')
     equipmentContainer.classList.add('single-equipment-container')
@@ -32,12 +74,16 @@ if (cart != null || cartContainer.length > 1) {
     // Remove Item
     deleteButton.addEventListener('click', (e) => {
       if (deleteButton.name === equipmentContainer.id) {
-        let position = cart.findIndex((item) => {
+        let position = list.findIndex((item) => {
           return item.id === equipmentContainer.id
         })
-        cart.splice(position, 1)
+        list.splice(position, 1)
         equipmentContainer.remove()
-        localStorage.setItem('cart', JSON.stringify(cart))
+        localStorage.setItem('cart', JSON.stringify(list))
+        window.location.reload(true)
+      }
+      if (cart.length == 0) {
+        window.location.href = '/index.html'
       }
     })
 
@@ -46,53 +92,33 @@ if (cart != null || cartContainer.length > 1) {
     equipmentContainer.appendChild(equipmentInformation)
     equipmentListContainer.appendChild(equipmentContainer)
   })
-  // Cost Area
-  let paymentContainer = document.createElement('div')
-  paymentContainer.classList.add('cart-cost-container')
-
-  //  Description Section
-  let descriptionContainer = createElement('div')
-
-  descriptionContainer.classList.add('cost-description-container')
-  let cartTotal = createElement('p')
-  cartTotal.textContent = 'Cart Total'
-  let tax = createElement('p')
-  tax.textContent = '10% Tax'
-  let shipping = createElement('p')
-  shipping.textContent = 'Shipping'
-  let total = createElement('p')
-  total.textContent = 'total'
-
-  descriptionContainer.appendChild(cartTotal)
-  descriptionContainer.appendChild(tax)
-  descriptionContainer.appendChild(shipping)
-  descriptionContainer.appendChild(total)
-
-  //  Cost Section
-  let costContainer = createElement('div')
-  costContainer.classList.add('cost-container')
-  let cartTotalDollar = createElement('p')
-  cartTotalDollar.textContent = '$200'
-  let taxDollar = createElement('p')
-  taxDollar.textContent = '$20'
-  let shippingDollar = createElement('p')
-  shippingDollar.textContent = '$15'
-  let totalDollar = createElement('p')
-  totalDollar.textContent = '$235'
-
-  costContainer.appendChild(cartTotalDollar)
-  costContainer.appendChild(taxDollar)
-  costContainer.appendChild(shippingDollar)
-  costContainer.appendChild(totalDollar)
-
-  paymentContainer.appendChild(descriptionContainer)
-  paymentContainer.appendChild(costContainer)
-  cartContainer.appendChild(equipmentListContainer)
-  cartContainer.appendChild(paymentContainer)
-  function createElement(element) {
-    return document.createElement(element)
-  }
-  console.log(equipmentListContainer)
-} else {
-  cartContainer.appendChild(equipmentListContainer)
 }
+
+function createElement(element) {
+  return document.createElement(element)
+}
+
+// Find Cart Totals
+let cartItemPricesArray = cart.map((item) => {
+  return item.price
+})
+let cartTotalCost = (arr) => {
+  return arr.reduce((sum, current) => {
+    return sum + current
+  })
+}
+let cartTotalAmount = cartTotalCost(cartItemPricesArray)
+console.log(cartTotalAmount)
+cartTotalDollar.textContent = '$' + cartTotalAmount
+
+// Find Tax
+let taxAmount = (value) => {
+  let amount = value * 0.1
+  return amount.toFixed(2)
+}
+let taxAmountDollar = taxAmount(cartTotalCost(cartItemPricesArray))
+
+taxDollar.textContent = '$' + taxAmountDollar
+console.log(cartTotalAmount + Number(taxAmountDollar))
+// Find Total
+totalDollar.textContent = '$' + (cartTotalAmount + Number(taxAmountDollar) + 15)
